@@ -729,4 +729,4 @@ class MercyView(discord.ui.View):
             description="You have declined the Mercy Program. If you change your mind, use /mercy again.",
             color=discord.Color.red()
         )
-        await interaction.response.edit_message(embed
+        await interaction.response.edit_message(embed=embed, view=None)
