@@ -4,6 +4,11 @@ from discord import app_commands
 import sqlite3
 from datetime import datetime
 import asyncio
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Database setup
 class Database:
@@ -252,6 +257,16 @@ class MiddlemanBot(commands.Bot):
 
 # Bot instance
 bot = MiddlemanBot()
+
+# ==================== BOT EVENTS ====================
+
+@bot.event
+async def on_ready():
+    print(f"✅ Bot is online as {bot.user.name} (ID: {bot.user.id})")
+    print(f"📊 Connected to {len(bot.guilds)} servers:")
+    for guild in bot.guilds:
+        print(f"  - {guild.name} (ID: {guild.id})")
+    print("✅ Bot is ready to use!")
 
 # ==================== PREFIX COMMANDS ====================
 
@@ -717,16 +732,7 @@ class MercyView(discord.ui.View):
                 description="**Step 1: GET A TRADE**\n\nGo to servers and find trades. Don't overpay too much.\nIf you can't find a trade, try DMing people.",
                 color=discord.Color.purple()
             )
-            view = MercyStepView(self.bot)
+            view = MercyStepView()
             await interaction.user.send(embed=dm_embed, view=view)
         except discord.Forbidden:
-            await interaction.followup.send("❌ I can't DM you! Please enable DMs from server members.", ephemeral=True)
-    
-    @discord.ui.button(label="Decline", style=discord.ButtonStyle.danger)
-    async def decline(self, interaction: discord.Interaction, button: discord.ui.Button):
-        embed = discord.Embed(
-            title="❌ Mercy Declined",
-            description="You have declined the Mercy Program. If you change your mind, use /mercy again.",
-            color=discord.Color.red()
-        )
-        await interaction.response.edit_message(embed=embed, view=None)
+            await interaction.followup.send("
