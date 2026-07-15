@@ -5,10 +5,6 @@ import sqlite3
 from datetime import datetime
 import asyncio
 import os
-from dotenv import load_dotenv
-
-# Load environment variables
-load_dotenv()
 
 # Database setup
 class Database:
@@ -738,3 +734,4 @@ class MercyView(discord.ui.View):
         except discord.Forbidden:
             await interaction.followup.send("❌ I can't DM you! Please enable DMs from server members.", ephemeral=True)
     
+    @discord.ui.button(label="Decline", style
