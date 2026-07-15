@@ -722,7 +722,6 @@ class MercyView(discord.ui.View):
         )
         await interaction.response.edit_message(embed=embed, view=None)
         
-        # Send DM
         try:
             dm_embed = discord.Embed(
                 title="📝 Mercy Program Started",
@@ -734,4 +733,5 @@ class MercyView(discord.ui.View):
         except discord.Forbidden:
             await interaction.followup.send("❌ I can't DM you! Please enable DMs from server members.", ephemeral=True)
     
-    @discord.ui.button(label="Decline", style
+    @discord.ui.button(label="Decline", style=discord.ButtonStyle.danger)
+    async def decline(self,
