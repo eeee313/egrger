@@ -325,17 +325,18 @@ async def info_command(ctx):
     )
     
     requirements = ""
-    for role, req in bot.role_requirements.items():
+    role_list = list(bot.role_requirements.keys())
+    for i, role in enumerate(role_list):
+        req = bot.role_requirements[role]
         role_ping = f"@[{role}]"
         if 'hits' in req:
             if 'discount' in req:
-                requirements += f"**{role_ping}**\n   • {req['hits']} hits OR ${req['price']} | ${req['discount']} if already @[{list(bot.role_requirements.keys())[list(bot.role_requirements.keys()).index(role)-1]}]\n\n"
+                requirements += f"**{role_ping}**\n   • {req['hits']} hits OR ${req['price']} | ${req['discount']} if already @[{role_list[i-1]}]\n\n"
             else:
                 requirements += f"**{role_ping}**\n   • {req['hits']} hits OR ${req['price']}\n\n"
         else:
             if 'discount' in req:
-                prev_role = list(bot.role_requirements.keys())[list(bot.role_requirements.keys()).index(role)-1]
-                requirements += f"**{role_ping}**\n   • ${req['price']} | ${req['discount']} if already @[{prev_role}]\n\n"
+                requirements += f"**{role_ping}**\n   • ${req['price']} | ${req['discount']} if already @[{role_list[i-1]}]\n\n"
             else:
                 requirements += f"**{role_ping}**\n   • ${req['price']}\n\n"
     
@@ -735,4 +736,5 @@ class MercyView(discord.ui.View):
             view = MercyStepView()
             await interaction.user.send(embed=dm_embed, view=view)
         except discord.Forbidden:
-            await interaction.followup.send("
+            await interaction.followup.send("❌ I can't DM you! Please enable DMs from server members.", ephemeral=True)
+    
