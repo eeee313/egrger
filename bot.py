@@ -733,5 +733,4 @@ class MercyView(discord.ui.View):
         except discord.Forbidden:
             await interaction.followup.send("❌ I can't DM you! Please enable DMs from server members.", ephemeral=True)
     
-    @discord.ui.button(label="Decline", style=discord.ButtonStyle.danger)
-    async def decline(self,)
+    @discord.ui.button(label="Decline", style
