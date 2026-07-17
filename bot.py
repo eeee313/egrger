@@ -708,29 +708,30 @@ class SupportView(discord.ui.View):
         await channel.send(embed=embed)
         await interaction.response.send_message(f"✅ Ticket created: {channel.mention}", ephemeral=True)
 
-class MercyView(discord.ui.View):
-    def __init__(self, bot):
-        super().__init__(timeout=60)
-        self.bot = bot
+class MercyStepView(discord.ui.View):
+    def __init__(self):
+        super().__init__(timeout=300)
+        self.step = 1
     
-    @discord.ui.button(label="Accept", style=discord.ButtonStyle.success)
-    async def accept(self, interaction: discord.Interaction, button: discord.ui.Button):
-        embed = discord.Embed(
-            title="✅ Mercy Accepted",
-            description=f"@{interaction.user.name}\n\nYou have accepted the Mercy Program!\n\nPlease check your DMs for next steps.",
-            color=discord.Color.green()
-        )
-        await interaction.response.edit_message(embed=embed, view=None)
-        
-        try:
-            dm_embed = discord.Embed(
-                title="📝 Mercy Program Started",
-                description="**Step 1: GET A TRADE**\n\nGo to servers and find trades. Don't overpay too much.\nIf you can't find a trade, try DMing people.",
+    @discord.ui.button(label="Got it", style=discord.ButtonStyle.success)
+    async def got_it(self, interaction: discord.Interaction, button: discord.ui.Button):
+        if self.step == 1:
+            embed = discord.Embed(
+                title="📝 Step 2: Convince to Use Middleman",
+                description="Use things like:\n• Middlemans are safe\n• We have vouches\n• Secure trading\n\nOnce you confirm a trade, request the middleman.",
                 color=discord.Color.purple()
             )
-            view = MercyStepView()
-            await interaction.user.send(embed=dm_embed, view=view)
-        except discord.Forbidden:
-            await interaction.followup.send("❌ I can't DM you! Please enable DMs from server members.", ephemeral=True)
-    
-    @discord.ui.button(label="Decline", style
+            self.step = 2
+            await interaction.response.edit_message(embed=embed, view=self)
+        elif self.step == 2:
+            embed = discord.Embed(
+                title="🎉 Final Step: Splits",
+                description="Once you and the middleman complete the hit,\nyou will split profits **50/50**.\n\n**Good Luck!** 🍀",
+                color=discord.Color.gold()
+            )
+            self.step = 3
+            await interaction.response.edit_message(embed=embed, view=None)
+
+class MercyView(discord.ui.View):
+    def __init__(self, bot):
+       
