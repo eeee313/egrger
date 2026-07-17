@@ -737,4 +737,4 @@ class MercyStepView(discord.ui.View):
             await interaction.response.edit_message(embed=embed, view=self)
         elif self.step == 2:
             embed = discord.Embed(
-                title="🎉 Final Step: Spl
+                title="🎉 Final
