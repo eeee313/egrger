@@ -6,6 +6,11 @@ from datetime import datetime
 import asyncio
 import os
 
+# ==================== DEBUG PRINT ====================
+print("=== BOT IS STARTING ===")
+print(f"Python version: {os.sys.version}")
+print(f"Token exists: {bool(os.getenv('DISCORD_TOKEN'))}")
+
 # Database setup
 class Database:
     def __init__(self):
@@ -189,7 +194,7 @@ class MiddlemanBot(commands.Bot):
 
     async def setup_hook(self):
         await self.tree.sync()
-        print("Slash commands synced!")
+        print("✅ Slash commands synced!")
 
     def has_permission(self, user, required_roles):
         """Check if user has any of the required roles"""
@@ -263,6 +268,13 @@ async def on_ready():
     for guild in bot.guilds:
         print(f"  - {guild.name} (ID: {guild.id})")
     print("✅ Bot is ready to use!")
+    
+    # Sync slash commands
+    try:
+        await bot.tree.sync()
+        print("✅ Slash commands synced successfully!")
+    except Exception as e:
+        print(f"❌ Failed to sync commands: {e}")
 
 # ==================== PREFIX COMMANDS ====================
 
@@ -725,13 +737,4 @@ class MercyStepView(discord.ui.View):
             await interaction.response.edit_message(embed=embed, view=self)
         elif self.step == 2:
             embed = discord.Embed(
-                title="🎉 Final Step: Splits",
-                description="Once you and the middleman complete the hit,\nyou will split profits **50/50**.\n\n**Good Luck!** 🍀",
-                color=discord.Color.gold()
-            )
-            self.step = 3
-            await interaction.response.edit_message(embed=embed, view=None)
-
-class MercyView(discord.ui.View):
-    def __init__(self, bot):
-        super().__
+                title="🎉 Final Step: Spl
