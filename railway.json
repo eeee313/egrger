@@ -1,0 +1,10 @@
+{
+  "build": {
+    "builder": "NIXPACKS"
+  },
+  "deploy": {
+    "environment": {
+      "NIXPACKS_PYTHON_VERSION": "3.11.7"
+    }
+  }
+}
