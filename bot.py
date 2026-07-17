@@ -734,4 +734,4 @@ class MercyStepView(discord.ui.View):
 
 class MercyView(discord.ui.View):
     def __init__(self, bot):
-       
+        super().__init__(
